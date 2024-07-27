@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        @keyframes gradientAnimation {
+          0% {
+            background-position: 0% 50%;
+          }
+          20% {
+            background-position: 100% 50%;
+          }
+          40% {
+            background-position: 0% 50%;
+          }
+          60% {
+            background-position: 100% 50%;
+          }
+          80% {
+            background-position: 0% 50%;
+          }
+          100% {
+            background-position: 100% 50%;
+          }
+        }
+
+        .animate-gradient {
+          background-size: 600% 100%;
+          background-image: linear-gradient(90deg, #000000, #b6bac0, #000000);
+          animation: gradientAnimation 6s linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="flex flex-col items-center">
+            <div class="rounded-lg border bg-card text-card-foreground shadow-sm w-full max-w-md" data-v0-t="card">
+                <div class="flex flex-col space-y-1.0 p-6">
+                    <h3 class="tracking-tight text-2xl font-bold text-center bg-gradient-to-r from-gray-800 via-gray-700 to-black bg-clip-text text-transparent animate-gradient">
+                        QR Code Generator
+                    </h3>
+                    <p class="text-sm text-muted-foreground text-center">
+                        Enter your data below to create a QR code.
+                    </p>
+                </div>
+                <div class="p-6 space-y-4">
+                    <form action="/generate_qr" method="post" class="space-y-4 -mt-5">
+                        <div class="space-y-2">
+                            <input class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-300 hover:shadow-md" id="qr-data" name="content" placeholder="Enter your data here">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium leading-none" for="image-size">Image Size</label>
+                            <select class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" id="image-size" name="image_size">
+                                <option value="small">Small</option>
+                                <option value="medium">Medium</option>
+                                <option value="large">Large</option>
+                            </select>
+                        </div>
+                        <button class="inline-flex items-end justify-center rounded-md text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-gradient-to-r from-gray-800 via-gray-700 to-black text-white h-10 px-4 py-2 w-full mt-2 -mt-3 transform hover:scale-105" type="submit">
+                            Generate QR Code
+                        </button>
+                    </form>
+                </div>
+            </div>
+            {% if qr_generated %}
+                <div class="p-6 space-y-4">
+                    <p>QR Code generated successfully!</p>
+                    <img src="/generate_qr" alt="QR Code">
+                </div>
+            {% endif %}
+            {% if error_message %}
+                <div class="p-6 space-y-4">
+                    <p style="color: red;">{{ error_message }}</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

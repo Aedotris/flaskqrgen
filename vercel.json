@@ -1,0 +1,25 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "app/app.py",
+        "use": "@vercel/python"
+      }
+    ],
+    "routes": [
+      { "handle": "filesystem" },
+      {
+        "src": "/generate_qr",
+        "dest": "/app/app.py"
+      },
+      {
+        "src": "/download_qr",
+        "dest": "/app/app.py"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/app/app.py"
+      }
+    ]
+  }
+  
